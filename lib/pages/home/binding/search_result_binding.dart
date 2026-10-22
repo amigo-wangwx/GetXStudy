@@ -1,4 +1,4 @@
-import 'package:cp_driver_app/logger/class_name.dart';
+import 'package:cp_driver_app/base/class_name.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:get/get.dart';
 

@@ -1,4 +1,4 @@
-import 'package:cp_driver_app/logger/class_name.dart';
+import 'package:cp_driver_app/base/class_name.dart';
 import 'package:cp_driver_app/pages/my/controller/bill/my_bill_all_controller.dart';
 import 'package:cp_driver_app/pages/my/controller/bill/my_bill_controller.dart';
 import 'package:cp_driver_app/pages/my/controller/bill/my_bill_overdue_controller.dart';

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'example_routes.dart';
+import 'package:cp_driver_app/extension/theme_data_extension.dart';
 
 class GetXApp extends StatelessWidget {
   @override
@@ -63,7 +64,8 @@ class GetXExampleController extends GetxController {
   }
 
   void pushToNextPage() {
-    Get.toNamed(Routes.getxRxExamplePage, arguments: {"message": "我是GetXExamplePage传来的数据"});
+    Get.toNamed(Routes.getxRxExamplePage,
+        arguments: {"message": "我是GetXExamplePage传来的数据"});
   }
 }
 
@@ -84,6 +86,7 @@ class GetxRxExamplePage extends GetView<GetxRxExampleController> {
     final map = Get.arguments;
     final message = map["message"];
     return Scaffold(
+      backgroundColor: const Color(0xFFE0E5EC),
       appBar: AppBar(
         title: const Text("GetX响应式编写计数器"),
       ),
@@ -100,16 +103,45 @@ class GetxRxExamplePage extends GetView<GetxRxExampleController> {
                 style: Theme.of(context).textTheme.headlineMedium,
               );
             }),
+            /// 使用GetX<T>时,GetxRxExampleController必须继承GetxController
+            // GetX<GetxRxExampleController>(
+            //   builder: (s) {
+            //     return Text(
+            //       s.count.value.toString(),
+            //       style: Theme.of(context).textTheme.headlineMedium,
+            //     );
+            //   },
+            // ),
             Text(message),
             ElevatedButton(
-                onPressed: controller.pushToCoinRankPage,
-                child: const Text("下一页"))
+              onPressed: controller.pushToCoinRankPage,
+              child: const Text("下一页"),
+            ),
+            Container(
+                height: 50,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFE0E5EC),
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Icon(Icons.share),
+                      SizedBox(width: 12),
+                      Text("Share")
+                    ])).addNeumorphism(
+              bottomShadowColor: const Color(0xFFA3B1C6),
+              topShadowColor: Colors.white,
+            ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: (() {
           controller.increment();
+          /// 上一个页面的值也在进行添加
           _easyController.increment();
         }),
         tooltip: 'Increment',
@@ -126,7 +158,8 @@ class GetxRxExampleBindings extends Bindings {
   }
 }
 
-class GetxRxExampleController extends GetxController {
+/// 响应式不用继承GetxController: https://juejin.cn/post/7204854015463997496
+class GetxRxExampleController {
   var count = 0.obs;
 
   void increment() {

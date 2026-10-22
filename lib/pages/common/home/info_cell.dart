@@ -4,18 +4,24 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:cp_driver_app/entity/article_info_entity.dart';
 import 'package:cp_driver_app/extension/string_extension.dart';
+import 'package:cp_driver_app/generated/assets.dart';
+import 'package:cp_driver_app/pages/common/shimmer.dart';
 
 class InfoCell extends StatelessWidget {
   final ArticleInfoDatas _model;
 
   final ValueChanged<ArticleInfoDatas> _cellTapCallback;
 
+  final bool _isNeedBottomLine;
+
   const InfoCell(
       {Key? key,
       required ArticleInfoDatas model,
-      required ValueChanged<ArticleInfoDatas> callback})
+      required ValueChanged<ArticleInfoDatas> callback,
+      bool isNeedBottomLine = true})
       : _model = model,
         _cellTapCallback = callback,
+        _isNeedBottomLine = isNeedBottomLine,
         super(key: key);
 
   @override
@@ -42,8 +48,12 @@ class InfoCell extends StatelessWidget {
           fit: BoxFit.fitHeight,
           imageUrl: _model.envelopePic.toString(),
           placeholder: (context, url) => Image.asset(
-            "assets/images/placeholder.png",
+            Assets.assetsImagesPlaceholder,
           ),
+          /// placeholder和progressIndicatorBuilder只能选择其中一种,不能同时显示
+          // progressIndicatorBuilder: (context, url, progress) {
+          //   return const Shimmer();
+          // },
         ),
       ),
     );
@@ -122,7 +132,7 @@ class InfoCell extends StatelessWidget {
             _contentView(),
           ],
         ),
-        const Divider(),
+        _isNeedBottomLine ? const Divider() : Container()
       ],
     );
   }

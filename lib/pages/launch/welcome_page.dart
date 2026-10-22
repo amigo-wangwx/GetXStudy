@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
-import 'package:cp_driver_app/account_manager/account_manager.dart';
+import 'package:cp_driver_app/app_service/account_service.dart';
+import 'package:cp_driver_app/generated/assets.dart';
 import 'package:cp_driver_app/routes/routes.dart';
 
 class WelcomePage extends StatelessWidget {
@@ -14,8 +15,7 @@ class WelcomePage extends StatelessWidget {
       body: PageView(
         physics: const ClampingScrollPhysics(),
         children: [
-          _welcomeView("welcome_2.jpg", true),
-          // _welcomeView("welcome_1.png", true),
+          _welcomeView(Assets.assetsImagesWelcome2, true),
         ],
       ),
     );
@@ -29,7 +29,7 @@ class WelcomePage extends StatelessWidget {
           decoration: BoxDecoration(
             //设置背景图片
             image: DecorationImage(
-              image: AssetImage("assets/images/$imageName"),
+              image: AssetImage(imageName),
               fit: BoxFit.cover,
             ),
           ),
@@ -55,7 +55,7 @@ class WelcomePage extends StatelessWidget {
               ),
               child: const Text("点击进入"),
               onPressed: () {
-                AccountManager().saveNotFirstLaunch();
+                AccountService.find.saveNotFirstLaunch();
                 Get.offAllNamed(Routes.main);
               },
             ),

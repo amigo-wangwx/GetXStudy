@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:cp_driver_app/base/base_refresh_controller.dart';
 import 'package:cp_driver_app/enum/response_status.dart';
 import 'package:cp_driver_app/entity/coin_rank_entity.dart';
-import 'package:cp_driver_app/logger/class_name.dart';
+import 'package:cp_driver_app/base/class_name.dart';
 import 'package:cp_driver_app/pages/coin_rank/repository/coin_rank_repository.dart';
 import 'package:cp_driver_app/enum/scroll_view_action_type.dart';
 

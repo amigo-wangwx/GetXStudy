@@ -4,7 +4,7 @@ import 'package:cp_driver_app/base/base_refresh_controller.dart';
 import 'package:cp_driver_app/entity/my_coin_history_entity.dart';
 import 'package:cp_driver_app/enum/response_status.dart';
 import 'package:cp_driver_app/enum/scroll_view_action_type.dart';
-import 'package:cp_driver_app/logger/class_name.dart';
+import 'package:cp_driver_app/base/class_name.dart';
 import 'package:cp_driver_app/pages/my/repository/my_coin_history_repository.dart';
 
 class MyCoinHistoryController

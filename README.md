@@ -22,7 +22,7 @@ flutter run --flavor prod -t lib/env/main_prod.dart
 ```sh
 flutter build apk --debug --flavor dev
 flutter test
-dart run build_runner build --build-filter=lib/http_util/request_client.g.dart
+dart run build_runner build
 ```
 
 主题库采用兼容现有 Flutter UI 类型的 FlexColorScheme 8.4；权限插件采用适配 SDK 36 的 permission_handler 12。原生分享已迁移到 share_plus，移除了没有调用的旧图库保存插件及两个 Git 依赖。Android 构建配置参考 [Flutter Plugin DSL 迁移说明](https://docs.flutter.dev/release/breaking-changes/flutter-gradle-plugin-apply)和当前 SDK 生成的模板。
@@ -59,7 +59,7 @@ Android 另对 Cronet API 设置了 143.7445.0 的最低版本约束，修复 Pl
 | --- | --- | --- | --- |
 
 **Material风格**
-| ![](ScreenShots/5.PNG) | ![](ScreenShots/6.PNG) | ![](ScreenShots/7.PNG) | ![](ScreenShots/8.PNG) |  
+| ![](ScreenShots/5.PNG) | ![](ScreenShots/6.PNG) | ![](ScreenShots/7.PNG) | ![](ScreenShots/8.PNG) |
 | --- | --- | --- | --- |
 ### 功能说明
 
@@ -77,55 +77,64 @@ Android 另对 Cronet API 设置了 143.7445.0 的最低版本约束，修复 Pl
 ### 引入的第三库
 
 ```ruby
-# GetX
-get: ^4.6.5
-# 轮播图
-card_swiper: ^2.0.4
-# WebView
-webview_flutter: ^3.0.4
-# 下拉刷新，上拉加载更多
-pull_to_refresh: ^2.0.0
-# 侧滑功能库
-flutter_slidable: ^2.0.0
-# 网络图片缓存库
-cached_network_image: ^3.2.1
-# 拼音转字符串
-lpinyin: ^2.0.3
-# 简单的数据存储库
-shared_preferences: ^2.0.15
-# 网络请求库
-dio: ^4.0.6
-# 网络请求日志
-pretty_dio_logger: ^1.1.1
-# 走马灯组件
-marquee: ^2.2.3
-# 吐司
-flutter_easyloading: ^3.0.5
-# 原生分享
-share: ^2.0.4
-# 网易开发的R函数，需要使用插件运行CLI进行
-r_dart_library:
-  git:
-    url: 'https://github.com/YK-Unit/r_dart_library.git'
-    ref: 0.4.1
-# 暂时没有使用的库
-
-# RxDart，感觉有GetX这个库没啥用
-rxdart: ^0.27.5
-# 图片选择器
-image_picker: ^0.8.5+3
-# URL跳转
-url_launcher: ^6.1.5
-# 图片保存
-image_gallery_saver: ^1.7.1
-# App沙盒路径
-path_provider: ^2.0.11
-# 总线，类似iOS的NotificationCenter，有了GetX之后，跨页面通信可以不用总线了
-event_bus: ^2.0.0
-# 通过原生打开文件
-open_file: ^3.2.1
-# 隐私权限
-permission_handler: ^10.0.0
+  # iOS风格图标
+  cupertino_icons: ^1.0.5
+  # GetX框架，用于状态管理、路由、依赖注入等
+  get: ^4.6.5
+  # 网络请求库
+  dio: ^5.2.0+1
+  # Dio请求日志打印美化
+  pretty_dio_logger: ^1.3.1
+  # Dio的原生平台适配器
+  native_dio_adapter: ^1.0.0+1
+  # 网络图片缓存加载组件
+  cached_network_image: ^3.2.3
+  # 本地轻量级数据存储
+  shared_preferences: ^2.1.1
+  # 全局加载中提示组件
+  flutter_easyloading: ^3.0.5
+  # 下拉刷新和上拉加载更多组件
+  pull_to_refresh: ^2.0.0
+  # 轮播图组件
+  card_swiper: ^3.0.1
+  # WebView组件，用于加载网页
+  webview_flutter: ^4.2.2
+  # 滑动操作组件（如侧滑删除）
+  flutter_slidable: ^4.0.3
+  # 汉字转拼音工具
+  lpinyin: ^2.0.3
+  # 跑马灯文本组件
+  marqueer: ^2.3.1
+  # 分享功能插件
+  share_plus: ^12.0.1
+  # 响应式编程库，提供Stream相关工具
+  rxdart: ^0.28.0
+  # 图片选择器（从相册/相机获取图片）
+  image_picker: ^1.0.1
+  # URL启动器（打开链接、拨打电话等）
+  url_launcher: ^6.1.5
+  # 文件路径获取（获取应用沙盒路径等）
+  path_provider: ^2.0.11
+  # 事件总线，用于组件间通信
+  event_bus: ^2.0.0
+  # 文件打开工具
+  open_file: ^3.2.1
+  # 组件可见性检测
+  visibility_detector: ^0.4.0+2
+  # 权限请求处理（如相机、存储权限）
+  permission_handler: ^12.0.1
+  # 日志打印工具
+  logger: ^2.6.2
+  # 设备信息获取（如型号、系统版本）
+  device_info_plus: ^12.3.0
+  # API接口生成工具（基于Retrofit风格）
+  retrofit: '>=4.0.0 <5.0.0'
+  # JSON序列化注解
+  json_annotation: ^4.8.1
+  # 应用包信息获取（版本号、包名等）
+  package_info_plus: ^8.3.0
+  # 原生启动屏设置
+  flutter_native_splash: ^2.4.7
 ```
 
 ## GetX的感受
@@ -162,19 +171,24 @@ RefreshStateView和StateView也只保留了一个，我太过自信的认为Dart
 
 使用了Dart版本的Retrofit，真香，目前正在考虑是否将网络请求层进行替换。
 
-将MyController的业务拆分的更为细化，对于Mixin的使用也有了更多理解，感谢更像Swift中Protocol的Extension，同时可以mixin不仅可以增加方法，而且可以定义属性，同时如果申明是基于某个类的mixin，甚至可以对某个类的方法与属性都能操作，灵活度非常的大。
+将MyController的业务拆分的更为细化。
+
+对于Mixin的使用也有了更多理解，感觉更像Swift中Protocol的Extension，同时可以mixin不仅可以增加方法，而且可以定义属性，同时如果申明是基于某个类的mixin，甚至可以对某个类的方法与属性都能操作，灵活度非常的大。
 
 明明最近大半年都没有怎么写Flutter，结果折腾起来的都是大刀阔斧的进行，可能因为都是表层Api吧。
 
 其实很想把AccountManager的逻辑写到AccountController里面去，不过看了一下逻辑和操作，本质上面没有变化就算了。
 
-## Swift版wanandroid客户端
+已经将AccountManager抽到了AccountService层了。
 
-[项目地址](https://github.com/seasonZhu/RxStudy)
+## 2025年12月26日更新
 
-## uni-app版wanandroid客户端
 
-[项目地址](https://github.com/seasonZhu/UniAppPlayAndroid)
+
+## 其他版本的wanandroid客户端
+| [Swift版wanandroid客户端](https://github.com/seasonZhu/RxStudy) | [Flutter版wanandroid客户端](https://github.com/seasonZhu/GetXStudy) | [HarmonyOS版wanandroid客户端](https://github.com/seasonZhu/HarmonyStudy) | [uni-app版wanandroid客户端](https://github.com/seasonZhu/UniAppPlayAndroid) |
+| --- | --- | --- | --- |
+
 
 ## 我的掘金主页
 

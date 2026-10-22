@@ -28,6 +28,8 @@ dependencies:
   flutter_slidable: ^4.0.3
   lpinyin: ^2.0.3
   marquee: ^2.3.0
+  marqueer: ^2.3.1
+  visibility_detector: ^0.4.0+2
   share_plus: ^13.3.1
   rxdart: ^0.28.0
   image_picker: ^1.2.4
@@ -37,7 +39,7 @@ dependencies:
   event_bus: ^2.0.0
   open_file: ^4.0.0
   permission_handler: ^12.0.1
-  logger: ^1.4.0
+  logger: ^2.6.2
   device_info_plus: ^13.3.0
   retrofit: ^4.10.0
   json_annotation: ^4.12.0
@@ -52,6 +54,8 @@ dev_dependencies:
   retrofit_generator: ^10.3.2
   build_runner: ^2.17.1
   json_serializable: ^6.15.2
+  flutter_native_splash: ^2.4.7
+  dependency_validator: ^5.0.3
 flutter:
   uses-material-design: true
   assets:
@@ -69,6 +73,7 @@ flutter:
     - assets/images/welcome_1.png
     - assets/images/welcome_2.jpg
     - assets/html/index.html
+    - assets/html/webToApp.html
 flr:
   core_version: 3.1.0
   dartfmt_line_length: 80

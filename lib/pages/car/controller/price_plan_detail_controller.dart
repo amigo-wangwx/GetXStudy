@@ -7,7 +7,7 @@ import '../../../entity/base_entity.dart';
 import '../../../entity/car/price_plan_entity.dart';
 import '../../../enum/response_status.dart';
 import '../../../enum/scroll_view_action_type.dart';
-import '../../../logger/class_name.dart';
+import '../../../base/class_name.dart';
 import '../../../logger/logger.dart';
 import '../../my/controller/my_controller.dart';
 import '../repository/car_detail_repository.dart';

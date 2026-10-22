@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import '../../../logger/class_name.dart';
+import '../../../base/class_name.dart';
 import '../controller/msg_controller.dart';
 import '../repository/msg_repository.dart';
 

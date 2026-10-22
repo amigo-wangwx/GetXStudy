@@ -1,4 +1,4 @@
-import 'package:cp_driver_app/logger/class_name.dart';
+import 'package:cp_driver_app/base/class_name.dart';
 import 'package:cp_driver_app/pages/my/controller/order/my_order_%20canceled_controller.dart';
 import 'package:cp_driver_app/pages/my/controller/order/my_order_controller.dart';
 import 'package:cp_driver_app/pages/my/controller/order/my_order_done_controller.dart';

@@ -3,6 +3,7 @@ class Assets {
   Assets._();
 
   static const String assetsHtmlIndex = 'assets/html/index.html';
+  static const String assetsHtmlWebToApp = 'assets/html/webToApp.html';
   static const String assetsImagesIcEye = 'assets/images/ic_eye.png';
   static const String assetsImagesIcHead = 'assets/images/ic_head.jpeg';
   static const String assetsImagesLaunchImage = 'assets/images/launchImage.png';

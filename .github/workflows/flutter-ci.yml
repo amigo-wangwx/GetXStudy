@@ -1,0 +1,43 @@
+name: Flutter CI  # 工作流名称
+
+# 验证当前业务分支及保留的上游分支
+on:
+  push:
+    branches: [mk, develop_cupertino]
+  pull_request:
+    branches: [mk, develop_cupertino]
+
+# 设置权限
+permissions:
+  contents: read  # 只读权限，保证安全
+
+# 工作流中的任务
+jobs:
+  # 任务1：运行测试
+  test:
+    # 运行在Ubuntu最新版
+    runs-on: ubuntu-latest
+
+    # 任务步骤
+    steps:
+      # 步骤1：检出代码
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      # 步骤2：安装Flutter
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.47.7'
+          channel: 'stable'          # 稳定版
+
+      # 步骤3：获取依赖
+      - name: Get dependencies
+        run: flutter pub get
+
+      # 步骤4：运行测试
+      - name: Run tests
+        run: flutter test
+
+      - name: Analyze code
+        run: flutter analyze --no-fatal-infos --no-fatal-warnings

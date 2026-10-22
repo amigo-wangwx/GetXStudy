@@ -3,7 +3,7 @@ import 'package:cp_driver_app/pages/my/widgets/bar_item.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:cp_driver_app/account_manager/account_manager.dart';
+import 'package:cp_driver_app/app_service/account_service.dart';
 import 'package:cp_driver_app/enum/my.dart' as my;
 import 'package:cp_driver_app/pages/my/controller/my_controller.dart';
 import 'package:cp_driver_app/resource/assets_image_constant.dart';

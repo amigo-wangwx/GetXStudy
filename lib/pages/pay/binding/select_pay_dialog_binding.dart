@@ -1,4 +1,4 @@
-import 'package:cp_driver_app/logger/class_name.dart';
+import 'package:cp_driver_app/base/class_name.dart';
 import 'package:get/get.dart';
 
 import '../controller/select_pay_dialog_controller.dart';

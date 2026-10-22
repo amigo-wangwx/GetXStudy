@@ -2,7 +2,7 @@ import 'package:cp_driver_app/pages/common/home/info_cell.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:cp_driver_app/logger/class_name.dart';
+import 'package:cp_driver_app/base/class_name.dart';
 import 'package:cp_driver_app/pages/common/status_view.dart';
 import 'package:cp_driver_app/pages/my/controller/my_collect_controller.dart';
 import 'package:cp_driver_app/routes/routes.dart';
@@ -29,9 +29,16 @@ class MyCollectPage extends GetView<MyCollectController> {
             controller: controller.refreshController,
             onRefresh: controller.onRefresh,
             onLoading: controller.onLoadMore,
-            child: ListView.builder(
+            child: ListView.separated(
               shrinkWrap: true,
               itemCount: controller.dataSource.length,
+              separatorBuilder: (context, index) {
+                return const Divider(
+                  indent: 15,
+                  endIndent: 15,
+                  height: 0.1,
+                );
+              },
               itemBuilder: (BuildContext context, int index) {
                 final model = controller.dataSource[index];
                 return Slidable(
@@ -40,6 +47,7 @@ class MyCollectPage extends GetView<MyCollectController> {
                   // The end action pane is the one at the right or the bottom side.
                   endActionPane: ActionPane(
                     motion: const ScrollMotion(),
+                    extentRatio: 0.3,
                     children: [
                       SlidableAction(
                         onPressed: (_) {
@@ -57,7 +65,9 @@ class MyCollectPage extends GetView<MyCollectController> {
                   child: InfoCell(
                     model: model,
                     callback: (_) => Get.toNamed(Routes.web,
-                        arguments: model, parameters: {"className": className(this)}),
+                        arguments: model,
+                        parameters: {"className": className(this)}),
+                    isNeedBottomLine: false,
                   ),
                 );
               },

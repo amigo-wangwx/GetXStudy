@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
 
-import '../account_manager/account_manager.dart';
-import '../base/interface.dart';
-import '../enum/response_status.dart';
-import '../routes/routes.dart';
+import 'package:cp_driver_app/app_service/account_service.dart';
+import 'package:cp_driver_app/base/interface.dart';
+import 'package:cp_driver_app/enum/response_status.dart';
+import 'package:cp_driver_app/routes/routes.dart';
 
 abstract class BaseController extends GetxController
     implements IRetry, IEmptyTap {
@@ -23,10 +23,10 @@ mixin ResponseStatusMixin on GetxController {
 /// 本质上GetMiddleware的中间件已经做了这个事情,详细看LoginMiddleware,但是如何去拦截点击事情还没想好
 mixin CheckIsLoginMixin on BaseController {
   bool checkIsLogin() {
-    if (!AccountManager().isLogin) {
+    if (!AccountService.find.isLogin) {
       Get.toNamed(Routes.login);
     }
 
-    return AccountManager().isLogin;
+    return AccountService.find.isLogin;
   }
 }

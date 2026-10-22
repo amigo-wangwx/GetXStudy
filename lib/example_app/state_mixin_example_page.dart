@@ -19,9 +19,8 @@ class StateMixinBinding extends Bindings {
 
 class StateMixinController extends GetxController
     with StateMixin<List<HotKeyEntity>> {
-
   late HotKeyRepository request;
-  
+
   @override
   void onInit() async {
     super.onInit();
@@ -67,10 +66,10 @@ class StateMixinExamplePage extends GetView<StateMixinController> {
                   margin: const EdgeInsets.all(5),
                   child: TextButton(
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.blue),
-                      foregroundColor: MaterialStateProperty.all(Colors.white),
-                      overlayColor: MaterialStateProperty.all(Colors.blue),
-                      shape: MaterialStateProperty.all(
+                      backgroundColor: const WidgetStatePropertyAll(Colors.blue),
+                      foregroundColor: const WidgetStatePropertyAll(Colors.white),
+                      overlayColor: const WidgetStatePropertyAll(Colors.blue),
+                      shape: WidgetStatePropertyAll(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
@@ -87,6 +86,83 @@ class StateMixinExamplePage extends GetView<StateMixinController> {
           onEmpty: const Text('No data found'),
           onError: (error) => Text(error.toString()),
         ),
+      ),
+    );
+  }
+}
+
+/*
+/// 一般情况做动画需要这样
+class _MyState extends State<MynPage> with TickerProviderStateMixin {
+ */
+
+class MyAnimationPresenter extends GetxController
+    with GetSingleTickerProviderStateMixin {
+  final int durationInMs;
+  late AnimationController animCtrl;
+
+  MyAnimationPresenter({required this.durationInMs}) {
+    animCtrl = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: durationInMs),
+    );
+  }
+}
+
+class SomeRepository extends GetxService {
+
+}
+
+class CounterController extends GetxController with StateMixin<int> {
+  void increment() {
+    // 更新状态值并设置为成功状态
+    change((state ?? 0) + 1, status: RxStatus.success());
+  }
+
+  void reset() {
+    // 重置状态值并设置为空状态
+    change(0, status: RxStatus.empty());
+  }
+
+  void simulateError() {
+    // 模拟错误状态
+    change(state, status: RxStatus.error("An error occurred"));
+  }
+}
+
+class CounterPage extends StatelessWidget {
+  final CounterController controller = Get.put(CounterController());
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("StateMixin Example")),
+      body: controller.obx(
+        (state) => Center(
+          child: Text("Count: $state", style: TextStyle(fontSize: 24)),
+        ),
+        onLoading: Center(child: CircularProgressIndicator()),
+        onError: (error) => Center(child: Text("Error: $error")),
+        onEmpty: Center(child: Text("No data available")),
+      ),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            onPressed: controller.increment,
+            child: Icon(Icons.add),
+          ),
+          SizedBox(height: 10),
+          FloatingActionButton(
+            onPressed: controller.reset,
+            child: Icon(Icons.refresh),
+          ),
+          SizedBox(height: 10),
+          FloatingActionButton(
+            onPressed: controller.simulateError,
+            child: Icon(Icons.error),
+          ),
+        ],
       ),
     );
   }

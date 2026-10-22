@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
-import 'package:cp_driver_app/account_manager/account_manager.dart';
+import 'package:cp_driver_app/app_service/account_service.dart';
 import 'package:cp_driver_app/base/resign_first_responder.dart';
 import 'package:cp_driver_app/pages/my/controller/login_controller.dart';
 import 'package:cp_driver_app/logger/logger.dart';
@@ -15,6 +15,8 @@ class RegisterController extends LoginController {
   final rePassword = "".obs;
 
   final reObscureText = true.obs;
+
+  final rePasswordFocusNode = FocusNode();
 
   @override
   void onInit() {
@@ -32,7 +34,7 @@ class RegisterController extends LoginController {
 
     String message;
     if (response.isSuccess == true && response.data != null) {
-      await AccountManager()
+      await AccountService.find
           .save(info: response.data!, isLogin: true, password: password);
       await getUserCoinInfo();
       message = "注册成功";
@@ -48,12 +50,23 @@ class RegisterController extends LoginController {
           if (response.isSuccess) {
             Future.delayed(
               const Duration(seconds: 0),
-              () => navigator?.pop(AccountManager().isLogin),
+              () => navigator?.pop(AccountService.find.isLogin),
             );
           }
         }
       },
     );
+  }
+
+  void passwordTextFieldOnSubmitted(BuildContext context) {
+    passwordFocusNode.unfocus();
+    FocusScope.of(context).requestFocus(rePasswordFocusNode);
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+    rePasswordFocusNode.dispose();
   }
 
   bool get isShowRegisterButton =>

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:cp_driver_app/base/box.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_android/webview_flutter_android.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
@@ -10,11 +11,11 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'package:cp_driver_app/base/interface.dart';
 import 'package:cp_driver_app/base/base_request_controller.dart';
-import 'package:cp_driver_app/account_manager/account_manager.dart';
+import 'package:cp_driver_app/app_service/account_service.dart';
 import 'package:cp_driver_app/pages/web/repository/web_repository.dart';
 import 'package:cp_driver_app/enum/collect_action_type.dart';
 import 'package:cp_driver_app/logger/logger.dart';
-import 'package:cp_driver_app/logger/class_name.dart' as Func;
+import 'package:cp_driver_app/base/class_name.dart' as Func;
 import 'package:cp_driver_app/pages/my/controller/my_collect_controller.dart';
 
 class WebController extends BaseRequestController<WebRepository, Object?> {
@@ -23,6 +24,8 @@ class WebController extends BaseRequestController<WebRepository, Object?> {
   late final WebViewController webViewController;
 
   late final RefreshController refreshController;
+
+  final canGoBack = false.obs;
 
   var _actionTag = 0;
 
@@ -77,6 +80,16 @@ class WebController extends BaseRequestController<WebRepository, Object?> {
             logger.d('Page finished loading: $url');
             EasyLoading.dismiss();
             //refreshController.refreshCompleted();
+
+            /// 在onPageFinished监听canGoBack()属性变化
+            webViewController.canGoBack().then((value) {
+              canGoBack.value = value;
+              if (value) {
+                print("可以返回上一个Web页面");
+              } else {
+                print("可以返回上一个Page页面");
+              }
+            });
           },
           onWebResourceError: (WebResourceError error) {
             logger.d('''
@@ -104,6 +117,12 @@ class WebController extends BaseRequestController<WebRepository, Object?> {
       (webViewController.platform as AndroidWebViewController)
           .setMediaPlaybackRequiresUserGesture(false);
     }
+
+    /// 在这里设置iOS的Web侧滑手势
+    if (webViewController.platform is WebKitWebViewController) {
+      (webViewController.platform as WebKitWebViewController)
+          .setAllowsBackForwardNavigationGestures(true);
+    }
     this.webViewController = webViewController;
   }
 
@@ -112,8 +131,8 @@ class WebController extends BaseRequestController<WebRepository, Object?> {
 
     String message;
     if (model.isSuccess) {
-      if ((AccountManager().info?.collectIds ?? []).contains(originId)) {
-        (AccountManager().info?.collectIds ?? []).remove(originId);
+      if ((AccountService.find.info?.collectIds ?? []).contains(originId)) {
+        (AccountService.find.info?.collectIds ?? []).remove(originId);
       }
       message = "取消收藏成功";
       _actionTag = _actionTag - 1;
@@ -136,7 +155,7 @@ class WebController extends BaseRequestController<WebRepository, Object?> {
 
     String message;
     if (model.isSuccess) {
-      (AccountManager().info?.collectIds ?? []).add(originId);
+      (AccountService.find.info?.collectIds ?? []).add(originId);
       message = "收藏成功";
       _actionTag = _actionTag + 1;
       _type = CollectActionType.collect;
@@ -155,7 +174,7 @@ class WebController extends BaseRequestController<WebRepository, Object?> {
 
   bool isCollect(IWebLoadInfo webLoadInfo) {
     final collectId = _realCollectId(webLoadInfo);
-    final collectIds = AccountManager().info?.collectIds;
+    final collectIds = AccountService.find.info?.collectIds;
     if (collectIds != null && collectId != null) {
       if (collectIds.contains(collectId)) {
         return true;
@@ -212,6 +231,18 @@ class WebController extends BaseRequestController<WebRepository, Object?> {
       }
     } else {
       logger.d("it is not MyCollectPage, do nothing");
+    }
+  }
+
+  Future onBackAction() async {
+    final canGoback = await webViewController.canGoBack();
+    if (canGoback) {
+      webViewController.goBack();
+      Future.delayed(Duration(seconds: 1), () {
+        EasyLoading.dismiss();
+      });
+    } else {
+      Get.back();
     }
   }
 }

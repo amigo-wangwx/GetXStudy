@@ -1,3 +1,6 @@
+/*
+
+/// 已经通过AccountService类进行了封装,所以这个类可以不使用了
 import 'dart:convert';
 
 import 'package:cp_driver_app/entity/account_info_entity.dart';
@@ -126,3 +129,4 @@ class AccountManager {
   /// 销毁单例
   static void destroyInstance() => _instance = null;
 }
+*/

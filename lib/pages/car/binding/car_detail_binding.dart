@@ -2,7 +2,7 @@ import 'package:cp_driver_app/pages/car/controller/price_plan_detail_controller.
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import '../../../logger/class_name.dart';
+import '../../../base/class_name.dart';
 import '../controller/car_detail_controller.dart';
 import '../repository/car_detail_repository.dart';
 

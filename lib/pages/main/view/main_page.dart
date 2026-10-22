@@ -1,19 +1,18 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
+import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:get/instance_manager.dart';
-import 'package:cp_driver_app/account_manager/account_controller.dart';
+import 'package:cp_driver_app/app_service/theme_service.dart';
 import 'package:cp_driver_app/enum/main_tag_type.dart';
-import 'package:cp_driver_app/logger/logger.dart';
 import 'package:cp_driver_app/pages/main/controller/main_controller.dart';
+import 'package:cp_driver_app/enum/theme_type.dart';
 
 class MainPage extends GetView<MainController> {
   const MainPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final accountController = Get.find<AccountController>();
-    logger.d(accountController);
     return GetBuilder<MainController>(
       builder: ((controller) {
         return CupertinoTabScaffold(
@@ -25,6 +24,8 @@ class MainPage extends GetView<MainController> {
           },
           tabBar: CupertinoTabBar(
             items: MainTagTypeExt.items,
+            /// 这个地方目前这样写无法感知到变化,于是我使用了全局的GetMaterialController这个库来进行App的重启
+            backgroundColor: ThemeService.find.rxCurrentThemeType.value == ThemeType.dark ? Colors.black : Colors.white,
             currentIndex: controller.selectedIndex, //默认选中的 index
             onTap: controller.onItemTapped,
           ),

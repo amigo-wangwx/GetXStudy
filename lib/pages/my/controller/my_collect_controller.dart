@@ -4,10 +4,10 @@ import 'package:cp_driver_app/base/base_refresh_controller.dart';
 import 'package:cp_driver_app/base/interface.dart';
 import 'package:cp_driver_app/enum/response_status.dart';
 import 'package:cp_driver_app/entity/article_info_entity.dart';
-import 'package:cp_driver_app/logger/class_name.dart';
+import 'package:cp_driver_app/base/class_name.dart';
 import 'package:cp_driver_app/pages/my/repository/my_collect_repository.dart';
 import 'package:cp_driver_app/enum/scroll_view_action_type.dart';
-import 'package:cp_driver_app/account_manager/account_manager.dart';
+import 'package:cp_driver_app/app_service/account_service.dart';
 
 class MyCollectController
     extends BaseRefreshController<MyCollectRepository, ArticleInfoDatas> {
@@ -65,9 +65,9 @@ class MyCollectController
 
     String message;
     if (model.isSuccess) {
-      if ((AccountManager().info?.collectIds ?? [])
+      if ((AccountService.find.info?.collectIds ?? [])
           .contains(dataSource[index].originId)) {
-        (AccountManager().info?.collectIds ?? [])
+        (AccountService.find.info?.collectIds ?? [])
             .remove(dataSource[index].originId);
       }
       dataSource.removeAt(index);

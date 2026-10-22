@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
-import 'package:cp_driver_app/account_manager/account_manager.dart';
+import 'package:cp_driver_app/app_service/account_service.dart';
 import 'package:cp_driver_app/base/base_request_controller.dart';
 import 'package:cp_driver_app/base/resign_first_responder.dart';
 import 'package:cp_driver_app/entity/account_info_entity.dart';
@@ -23,6 +23,10 @@ class LoginController
 
   final obscureText = true.obs;
 
+  final userNameFocusNode = FocusNode();
+
+  final passwordFocusNode = FocusNode();
+
   @override
   void onInit() {
     super.onInit();
@@ -36,7 +40,7 @@ class LoginController
 
     String message;
     if (response.isSuccess == true && response.data != null) {
-      await AccountManager()
+      await AccountService.find
           .save(info: response.data!, isLogin: true, password: password);
       await getUserCoinInfo();
       message = "登录成功";
@@ -57,7 +61,7 @@ class LoginController
           // Get.back();
           if (response.isSuccess) {
             final params = {
-              "isLogin": AccountManager().isLogin,
+              "isLogin": AccountService.find.isLogin,
               "userInfo": userInfo,
             };
             navigator?.pop(params);
@@ -68,5 +72,17 @@ class LoginController
         }
       },
     );
+  }
+
+  void userNameTextFieldOnSubmitted(BuildContext context) {
+    userNameFocusNode.unfocus();
+    FocusScope.of(context).requestFocus(passwordFocusNode);
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+    userNameFocusNode.dispose();
+    passwordFocusNode.dispose();
   }
 }

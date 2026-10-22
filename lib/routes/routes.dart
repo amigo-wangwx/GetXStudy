@@ -11,12 +11,14 @@ import 'package:cp_driver_app/pages/pay/binding/select_pay_dialog_binding.dart';
 
 import '../pages/car/view/car_detail_page.dart';
 import '../pages/message/binding/msg_binding.dart';
+
 import 'package:cp_driver_app/pages/my/binding/my_order_binding.dart';
 import 'package:cp_driver_app/pages/my/view/my_order_page.dart';
 import 'package:cp_driver_app/pages/my/view/order/order_detail_paid_page.dart';
 import 'package:cp_driver_app/pages/my/view/order/order_detail_signed_page.dart';
 import 'package:get/get.dart';
-import '../account_manager/account_binding.dart';
+
+import '../pages/my/view/theme_setting_page.dart';
 import '../example_app/state_mixin_example_page.dart';
 import '../enum/tag_type.dart';
 import '../pages/coin_rank/bindings/coin_rank_binding.dart';
@@ -45,8 +47,8 @@ import '../pages/tree/view/tabs_page.dart';
 import '../pages/tree/view/tree_page.dart';
 import '../pages/web/binding/web_binding.dart';
 import '../pages/web/view/web_page.dart';
-import '../routes/login_middleware.dart';
-import '../routes/web_middleware.dart';
+import 'middleware/login_middleware.dart';
+import 'middleware/web_middleware.dart';
 
 abstract class Routes {
   Routes._();
@@ -117,6 +119,7 @@ abstract class Routes {
   static const myBill = "/myBill";
 
   static const setting = "/setting";
+  static const themeSetting = "/themeSetting";
 
   ///页面合集
   static final routePage = [
@@ -143,16 +146,12 @@ abstract class Routes {
     ),
     GetPage(
       name: project,
-      page: () => const TabsPage(
-        type: TagType.project,
-      ),
+      page: () => const TabsPage(type: TagType.project),
       binding: TabsBinding(TagType.project),
     ),
     GetPage(
       name: publicNumber,
-      page: () => const TabsPage(
-        type: TagType.publicNumber,
-      ),
+      page: () => const TabsPage(type: TagType.publicNumber),
       binding: TabsBinding(TagType.publicNumber),
     ),
     GetPage(
@@ -166,7 +165,6 @@ abstract class Routes {
         TabsBinding(TagType.publicNumber),
         TabsBinding(TagType.tree),
         MyBinding(),
-        AccountBinding(),
       ],
     ),
     GetPage(
@@ -187,10 +185,7 @@ abstract class Routes {
     GetPage(
       name: myCollect,
       page: () => const MyCollectPage(),
-      bindings: [
-        MyCollectBinding(),
-        WebBinding(),
-      ],
+      bindings: [MyCollectBinding(), WebBinding()],
     ),
 
     /// ----------- 我的订单 begin
@@ -199,32 +194,17 @@ abstract class Routes {
       page: () => const MyOrderPage(),
       bindings: [MyOrderBinding()],
     ),
-    GetPage(
-      name: myOrderSigned,
-      page: () => const OrderDetailSignedPage(),
-    ),
-    GetPage(
-      name: myOrderPaid,
-      page: () => const OrderDetailPaidPage(),
-    ),
+    GetPage(name: myOrderSigned, page: () => const OrderDetailSignedPage()),
+    GetPage(name: myOrderPaid, page: () => const OrderDetailPaidPage()),
 
-    GetPage(
-      name: myOrderPickUp,
-      page: () => const OrderDetailPickUpPage(),
-    ),
+    GetPage(name: myOrderPickUp, page: () => const OrderDetailPickUpPage()),
 
     GetPage(
       name: myOrderFulfillment,
       page: () => const OrderDetailFulfillmentPage(),
     ),
-    GetPage(
-      name: myOrderDone,
-      page: () => const OrderDetailDonePage(),
-    ),
-    GetPage(
-      name: myOrderCanceled,
-      page: () => const OrderDetailCanceledPage(),
-    ),
+    GetPage(name: myOrderDone, page: () => const OrderDetailDonePage()),
+    GetPage(name: myOrderCanceled, page: () => const OrderDetailCanceledPage()),
 
     /// ----------- 我的订单 end
     /// ----------- 我的账单 begin
@@ -237,7 +217,7 @@ abstract class Routes {
     /// ----------- 我的账单 end
     GetPage(
       name: web,
-      page: () => const WebPage(),
+      page: () => WebPage(),
       binding: WebBinding(),
       middlewares: [WebMiddleware()],
     ),
@@ -246,14 +226,8 @@ abstract class Routes {
       page: () => const StateMixinExamplePage(),
       binding: StateMixinBinding(),
     ),
-    GetPage(
-      name: unknown,
-      page: () => const UnknownPage(),
-    ),
-    GetPage(
-      name: welcome,
-      page: () => const WelcomePage(),
-    ),
+    GetPage(name: unknown, page: () => const UnknownPage()),
+    GetPage(name: welcome, page: () => const WelcomePage()),
     GetPage(name: splash, page: () => const SplashPage()),
 
     //<editor-fold desc="车辆信息 相关页面">
@@ -265,14 +239,12 @@ abstract class Routes {
     GetPage(
       name: carPricePlanDetail,
       page: () => const PricePlanDetailPage(),
-      bindings: [
-        CarDetailBinding(),
-        SelectPayDialogBinding(),
-      ],
+      bindings: [CarDetailBinding(), SelectPayDialogBinding()],
     ),
     //</editor-fold>
 
     GetPage(name: setting, page: () => const SettingPage()),
+    GetPage(name: themeSetting, page: () => const ThemeSettingPage()),
   ];
 
   static final unknownPage = GetPage(

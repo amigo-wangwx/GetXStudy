@@ -5,7 +5,7 @@ import 'package:cp_driver_app/entity/base_entity.dart';
 import 'package:cp_driver_app/entity/page_entity.dart';
 import 'package:cp_driver_app/enum/response_status.dart';
 import 'package:cp_driver_app/enum/scroll_view_action_type.dart';
-import 'package:cp_driver_app/logger/class_name.dart';
+import 'package:cp_driver_app/base/class_name.dart';
 import 'package:cp_driver_app/logger/logger.dart';
 import 'package:cp_driver_app/pages/home/repository/home_repository.dart';
 import 'package:get/get.dart';
