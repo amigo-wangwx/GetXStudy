@@ -11,10 +11,6 @@
         import 'package:flutter/services.dart' show rootBundle;
         // ignore: unused_import
         import 'package:path/path.dart' as path;
-        // ignore: unused_import
-        import 'package:flutter_svg/flutter_svg.dart';
-        // ignore: unused_import
-        import 'package:r_dart_library/asset_svg.dart';
         
         /// This `R` class is generated and contains references to static asset resources.
         class R {

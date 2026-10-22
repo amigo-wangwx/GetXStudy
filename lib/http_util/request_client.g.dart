@@ -2,17 +2,17 @@
 
 part of 'request_client.dart';
 
+// dart format off
+
 // **************************************************************************
 // RetrofitGenerator
 // **************************************************************************
 
-// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
+// ignore_for_file: type=lint
+// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element,unnecessary_string_interpolations,unused_element_parameter,avoid_unused_constructor_parameters,unreachable_from_main,avoid_redundant_argument_values
 
 class _RequestClient implements RequestClient {
-  _RequestClient(
-    this._dio, {
-    this.baseUrl,
-  }) {
+  _RequestClient(this._dio, {this.baseUrl, this.errorLogger}) {
     baseUrl ??= 'https://www.wanandroid.com/';
   }
 
@@ -20,87 +20,94 @@ class _RequestClient implements RequestClient {
 
   String? baseUrl;
 
+  final ParseErrorLogger? errorLogger;
+
   @override
   Future<BaseEntity<List<BannerEntity>>> getBanner() async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<BaseEntity<List<BannerEntity>>>(Options(
-      method: 'GET',
-      headers: _headers,
-      extra: _extra,
-    )
-            .compose(
-              _dio.options,
-              'banner/json',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(
-                baseUrl: _combineBaseUrls(
-              _dio.options.baseUrl,
-              baseUrl,
-            ))));
-    final value = BaseEntity<List<BannerEntity>>.fromJson(_result.data!);
-    return value;
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<BaseEntity<List<BannerEntity>>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'banner/json',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late BaseEntity<List<BannerEntity>> _value;
+    try {
+      _value = BaseEntity<List<BannerEntity>>.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
   }
 
   @override
   Future<BaseEntity<List<ArticleInfoDatas>>> getTopArticleList() async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<BaseEntity<List<ArticleInfoDatas>>>(Options(
-      method: 'GET',
-      headers: _headers,
-      extra: _extra,
-    )
-            .compose(
-              _dio.options,
-              'article/top/json',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(
-                baseUrl: _combineBaseUrls(
-              _dio.options.baseUrl,
-              baseUrl,
-            ))));
-    final value = BaseEntity<List<ArticleInfoDatas>>.fromJson(_result.data!);
-    return value;
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<BaseEntity<List<ArticleInfoDatas>>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'article/top/json',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late BaseEntity<List<ArticleInfoDatas>> _value;
+    try {
+      _value = BaseEntity<List<ArticleInfoDatas>>.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
   }
 
   @override
   Future<BaseEntity<PageEntity<List<ArticleInfoDatas>>>> getArticleList(
-      int page) async {
-    const _extra = <String, dynamic>{};
+    int page,
+  ) async {
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<BaseEntity<PageEntity<List<ArticleInfoDatas>>>>(Options(
-      method: 'GET',
-      headers: _headers,
-      extra: _extra,
-    )
-            .compose(
-              _dio.options,
-              'article/list/${page}/json',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(
-                baseUrl: _combineBaseUrls(
-              _dio.options.baseUrl,
-              baseUrl,
-            ))));
-    final value =
-        BaseEntity<PageEntity<List<ArticleInfoDatas>>>.fromJson(_result.data!);
-    return value;
+    const Map<String, dynamic>? _data = null;
+    final _options =
+        _setStreamType<BaseEntity<PageEntity<List<ArticleInfoDatas>>>>(
+          Options(method: 'GET', headers: _headers, extra: _extra)
+              .compose(
+                _dio.options,
+                'article/list/${page}/json',
+                queryParameters: queryParameters,
+                data: _data,
+              )
+              .copyWith(
+                baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl),
+              ),
+        );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late BaseEntity<PageEntity<List<ArticleInfoDatas>>> _value;
+    try {
+      _value = BaseEntity<PageEntity<List<ArticleInfoDatas>>>.fromJson(
+        _result.data!,
+      );
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
@@ -116,10 +123,7 @@ class _RequestClient implements RequestClient {
     return requestOptions;
   }
 
-  String _combineBaseUrls(
-    String dioBaseUrl,
-    String? baseUrl,
-  ) {
+  String _combineBaseUrls(String dioBaseUrl, String? baseUrl) {
     if (baseUrl == null || baseUrl.trim().isEmpty) {
       return dioBaseUrl;
     }
@@ -133,3 +137,5 @@ class _RequestClient implements RequestClient {
     return Uri.parse(dioBaseUrl).resolveUri(url).toString();
   }
 }
+
+// dart format on

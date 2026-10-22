@@ -62,11 +62,10 @@ class MyApp extends StatelessWidget {
             surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
             blendLevel: 7,
             subThemesData: const FlexSubThemesData(
-              appBarBackgroundSchemeColor: SchemeColor.background,
+              appBarBackgroundSchemeColor: SchemeColor.surface,
               // appBarBackgroundSchemeColor: Colors.white,
               blendOnLevel: 10,
               blendOnColors: false,
-              useTextTheme: true,
               useM2StyleDividerInM3: true,
               adaptiveAppBarScrollUnderOff: FlexAdaptive.all(),
               inputDecoratorBorderType: FlexInputBorderType.underline,
@@ -103,7 +102,6 @@ class MyApp extends StatelessWidget {
             subThemesData: const FlexSubThemesData(
               appBarBackgroundSchemeColor: SchemeColor.error,
               blendOnLevel: 20,
-              useTextTheme: true,
               useM2StyleDividerInM3: true,
               inputDecoratorBorderType: FlexInputBorderType.underline,
               adaptiveAppBarScrollUnderOff: FlexAdaptive.all(),
@@ -135,7 +133,7 @@ class MyApp extends StatelessWidget {
       // widget = FlutterSmartDialog.init()(context, widget);
       // return child;
       return MediaQuery(
-        data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+        data: MediaQuery.of(context).copyWith(textScaler: TextScaler.noScaling),
         child: widget,
       );
     }

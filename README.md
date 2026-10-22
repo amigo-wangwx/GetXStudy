@@ -1,5 +1,34 @@
 # 使用GetX编写Flutter的麦卡出行客户端
 
+## 当前运行方式
+
+升级基线为 Flutter 3.47.7 / Dart 3.13.5，Android 使用 Gradle 9.3.1、AGP 9.1.0 和 Java 17 字节码，最低支持 Android 7.0（API 24）。iOS 部署版本统一为 13.0，本次升级主要验证 Android。
+
+```sh
+flutter pub get
+flutter run --flavor dev
+```
+
+默认入口 `lib/main.dart` 使用 dev 环境。切换其他环境时，Android flavor 和 Dart 入口需要对应：
+
+```sh
+flutter run --flavor sit -t lib/env/main_sit.dart
+flutter run --flavor uat -t lib/env/main_uat.dart
+flutter run --flavor prod -t lib/env/main_prod.dart
+```
+
+构建调试 APK、运行启动测试，以及重新生成 Retrofit 客户端：
+
+```sh
+flutter build apk --debug --flavor dev
+flutter test
+dart run build_runner build --build-filter=lib/http_util/request_client.g.dart
+```
+
+主题库采用兼容现有 Flutter UI 类型的 FlexColorScheme 8.4；权限插件采用适配 SDK 36 的 permission_handler 12。原生分享已迁移到 share_plus，移除了没有调用的旧图库保存插件及两个 Git 依赖。Android 构建配置参考 [Flutter Plugin DSL 迁移说明](https://docs.flutter.dev/release/breaking-changes/flutter-gradle-plugin-apply)和当前 SDK 生成的模板。
+
+Android 另对 Cronet API 设置了 143.7445.0 的最低版本约束，修复 Play Services 间接引入 Cronet 141 时在 AGP 9 下的命名空间冲突，详见 [上游问题](https://github.com/dart-lang/http/issues/1932)。
+
 ## 前言
 
 在编写完RxSwift的wanandroid客户端之后，我一直都在犹豫是否需要将Flutter的wanandroid客户端进行重构。
@@ -20,7 +49,7 @@
 
 本次重构，很多代码部分还是沿用之前的Flutter项目的逻辑，同时因为有RxSwift的使用经验，使得我在本次开发中对于响应式理解更加轻车熟路。
 
-**注意，本项目目前只在iOS侧编译运行成功，Android端的情况目前还在调试，如果有问题，还欢迎大家指点一二。**
+原项目主要在 iOS 上调试；本次升级已在 Android 13 的 V2219A 上完成 dev 调试版构建、安装和启动验证，iOS 尚未重新构建验证。
 
 #### 界面截图
 

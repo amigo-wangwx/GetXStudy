@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:get/get.dart';
-import 'package:share/share.dart';
+import 'package:share_plus/share_plus.dart';
 
 import 'package:cp_driver_app/account_manager/account_manager.dart';
 import 'package:cp_driver_app/pages/web/controller/web_controller.dart';
@@ -44,7 +44,12 @@ class WebPage extends GetView<WebController> {
                 icon: const Icon(CupertinoIcons.share),
                 onPressed: () {
                   if (webLoadInfo.link != null) {
-                    Share.share(webLoadInfo.link!);
+                    final box = context.findRenderObject() as RenderBox;
+                    SharePlus.instance.share(ShareParams(
+                      text: webLoadInfo.link!,
+                      sharePositionOrigin:
+                          box.localToGlobal(Offset.zero) & box.size,
+                    ));
                   }
                 },
               ),
